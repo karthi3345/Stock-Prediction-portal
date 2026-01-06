@@ -3,40 +3,56 @@ import axios from "axios"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-
-
 const Register = () => {
-    const [username,setUsername] =useState('')
-    const[email,setEmail]=useState('')
-    const[errors,setErrors]=useState({})
-    const[password,setPassword]=useState('')
-    const[success,setSuccess]=useState(false) 
-    const[loading ,setLoading]=useState(false)
-    // intailly it will be false
-    const handleRegisteration= async (e)=>{
-        e.preventDefault();
-        setLoading(true);
-    
-        const userData ={
-            username,email,password
-        }
-    
-        try{
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-           const response=  await axios.post("http://127.0.0.1:8000/api/v1/register/", userData)
-           console.log(response.data)
-           console.log("register successfully")
-           setErrors({})
-            
-        } catch(error){
-            setSuccess(true)
-            setErrors(error.response.data)
-            console.log("failure",error.response.data)
+  const handleRegisteration = async (e) => {
+    e.preventDefault();
 
-        }finally{
-            setLoading(false)
-        }
+    setErrors({});
+    setSuccess(false);
+
+    // frontend validation
+    if (password.length < 8) {
+      setErrors({ password: "Ensure this field has at least 8 characters." });
+      return;
     }
+
+    const userData = { username, email, password };
+
+    try {
+      setLoading(true);
+
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/v1/register/",
+        userData
+      );
+
+      console.log("register successfully", response.data);
+
+      setSuccess(true);   // ✅ CORRECT PLACE
+      setErrors({});
+
+    } catch (error) {
+      console.log("failure", error.response?.data);
+
+      setSuccess(false);  // 🔥 IMPORTANT
+      setErrors(error.response?.data || { api: "Registration failed" });
+
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  
+
+
+
   return (
     <>
     <div className="container">
