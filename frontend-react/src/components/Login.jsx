@@ -28,7 +28,7 @@ const Login = () => {
 
       console.log("login successful")
       setIsLoggedIn(true)
-      navigate('/')
+      navigate('/dashboard')
     }
     catch(error){
             console.error("invalid")

@@ -15,7 +15,7 @@ const Main = () => {
             <p className='text-light lead'>This is stock prediction application utlizes Machine learning techniques especially employing Keras, and LSTM model integrated with Django Framework
                 it forcest on future stock prices by analyzing 100 days and 200 day moving averages ,used by stock analysis to infprm trading and investment decisions.
             </p>
-             <Button text="Login" class="btn-outline-danger"/>
+             <Button text="Explore Now" class="btn-outline-danger" url="/dashboard"/>
         </div>
     </div>
     

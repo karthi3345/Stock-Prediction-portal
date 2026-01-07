@@ -1,24 +1,21 @@
-import { createContext } from 'react'
-import {useState,useContext} from 'react'
+import { createContext, useState, useEffect } from 'react';
 
-// create context
-const AuthContext= createContext()
+const AuthContext = createContext();
 
-const AuthProvider = ({children}) => { //chikder child component
+const AuthProvider = ({ children }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const [isLoggedIn , setIsLoggedIn] = useState(
-        !!localStorage.getItem("accessToken")
-        
-    )
+  useEffect(() => {
+    // Sync with localStorage on mount
+    setIsLoggedIn(!!localStorage.getItem("accessToken"));
+  }, []); // run only once
+
   return (
-    <AuthContext.Provider value={{isLoggedIn,setIsLoggedIn}}>  
-    {/* passing to all compondent */}
-
-        {children}
+    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+      {children}
     </AuthContext.Provider>
-    
-  )
-}
+  );
+};
 
-export default AuthProvider
-export {AuthContext};
+export default AuthProvider;
+export { AuthContext };
